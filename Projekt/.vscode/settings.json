@@ -1,0 +1,13 @@
+{
+    "files.associations": {
+        "interrupt": "c",
+        "signal.h": "c",
+        "stdio.h": "c",
+        "unistd.h": "c",
+        "stdlib.h": "c",
+        "stdbool.h": "c",
+        "fcntl.h": "c",
+        "string.h": "c",
+        "types.h": "c"
+    }
+}
