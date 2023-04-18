@@ -35,7 +35,7 @@ int main(int argc, char **argv)
     while(true) {
         //Reprezentuje ID procesu jako int
         pid_t process;
-        bool shouldWait = true, toFile = false;
+        bool background = true, toFile = false;
         int* pipes;
         char* filename;
         signal(SIGINT, InterruptHandler);
@@ -56,6 +56,7 @@ int main(int argc, char **argv)
 
         for(int i = 0; i < programCount; i++) {
             int argsCount;
+            //dzielenie kazdego argumentu na wyrazy
             char** args = Potok(program[i], " ", &argsCount);
             if((argsCount - 2) >= 0 && strcmp(args[argsCount - 2], ">>") == 0) {
                 filename = args[argsCount - 1];
@@ -67,13 +68,12 @@ int main(int argc, char **argv)
             else
                 toFile = false;
             if(strcmp(args[argsCount - 1], "&") == 0) {
-                shouldWait = false;
-            
+                background = false;
                 args[argsCount - 1] = NULL;
                 argsCount--;
             }
             else
-                shouldWait = true;
+                background = true;
             
             if((process = fork()) == 0) {
                 if(programCount > 1) {
@@ -117,7 +117,7 @@ int main(int argc, char **argv)
             }
         }
                    
-        if(shouldWait) {
+        if(background) {
             for(int i = 0; i < programCount; i++) { 
                 wait(NULL); 
             }
